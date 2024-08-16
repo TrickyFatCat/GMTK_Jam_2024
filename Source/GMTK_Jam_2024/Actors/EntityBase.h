@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "EntityBase.generated.h"
 
+class UWeightComponent;
 class UBoxComponent;
 class UStaticMeshComponent;
 
@@ -17,10 +18,16 @@ class GMTK_JAM_2024_API AEntityBase : public AActor
 public:
 	AEntityBase();
 
+	UFUNCTION(BlueprintPure)
+	int32 GetCurrentWeight() const;
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UBoxComponent> Collision = nullptr;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> StaticMeshComponent = nullptr;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UWeightComponent> WeightComponent = nullptr;
 };
