@@ -33,14 +33,17 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnWeightRemovedDynamicSignature OnWeightRemoved;
-	
+
 	UFUNCTION(BlueprintCallable)
 	void AddWeight(const int32 DeltaWeight);
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveWeight(const int32 DeltaWeight);
 
+	UFUNCTION(BlueprintGetter)
+	int32 GetCurrentWeight() const { return CurrentWeight; }
+
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess, ClampMin="0"))
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetCurrentWeight, meta=(ClampMin="0"))
 	int32 CurrentWeight = 0;
 };
