@@ -18,12 +18,16 @@ AScales::AScales()
 
 void AScales::BeginPlay()
 {
-	Super::BeginPlay();
-
 	if (IsValid(RightBowl))
 	{
 		RightBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
 		RightBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
+	}
+
+	if (IsValid(LeftBowl))
+	{
+		LeftBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
+		LeftBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
 	}
 
 	AJamCoreGameMode* GameMode = UJamUtils::GetCoreGameMode(this);
@@ -32,9 +36,11 @@ void AScales::BeginPlay()
 	{
 		GameMode->RegisterScales(this);
 	}
+	
+	Super::BeginPlay();
 }
 
-bool AScales::AddEntity(AEntity* Entity) 
+bool AScales::AddEntity(AEntity* Entity)
 {
 	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
@@ -44,7 +50,7 @@ bool AScales::AddEntity(AEntity* Entity)
 	return RightBowl->AddEntity(Entity);
 }
 
-bool AScales::RemoveEntity(AEntity* Entity) 
+bool AScales::RemoveEntity(AEntity* Entity)
 {
 	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
@@ -54,28 +60,48 @@ bool AScales::RemoveEntity(AEntity* Entity)
 	return RightBowl->RemoveEntity(Entity);
 }
 
+bool AScales::AddTargetEntity(AEntity* Entity)
+{
+	if (!IsValid(Entity) || !IsValid(LeftBowl))
+	{
+		return false;
+	}
+
+	return LeftBowl->AddEntity(Entity);
+}
+
+bool AScales::RemoveTargetEntity(AEntity* Entity)
+{
+	if (!IsValid(Entity) || !IsValid(LeftBowl))
+	{
+		return false;
+	}
+
+	return LeftBowl->RemoveEntity(Entity);
+}
+
 void AScales::CalculateBalance()
 {
 	if (!IsValid(RightBowl) || !IsValid(LeftBowl))
 	{
 		return;
 	}
-	
+
 	const float RightBowlWeight = static_cast<float>(RightBowl->GetWeight());
 	const float LeftBowlWeight = static_cast<float>(LeftBowl->GetWeight());
 	WeightBalance = RightBowlWeight / LeftBowlWeight - 1.f;
 }
 
 void AScales::HandleWeightAdded(UWeightComponent* WeightComponent,
-                                      const int32 NewWeight,
-                                      const int32 DeltaWeight)
+                                const int32 NewWeight,
+                                const int32 DeltaWeight)
 {
 	CalculateBalance();
 }
 
 void AScales::HandleWeightRemoved(UWeightComponent* WeightComponent,
-                                        const int32 NewWeight,
-                                        const int32 DeltaWeight)
+                                  const int32 NewWeight,
+                                  const int32 DeltaWeight)
 {
 	CalculateBalance();
 }

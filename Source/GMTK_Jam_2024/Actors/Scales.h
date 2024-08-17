@@ -42,6 +42,12 @@ protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetWeightBalance)
 	float WeightBalance = 0.0f;
 
+	UFUNCTION(BlueprintCallable)
+	bool AddTargetEntity(AEntity* Entity);
+	
+	UFUNCTION(BlueprintCallable)
+	bool RemoveTargetEntity(AEntity* Entity);
+
 private:
 	UFUNCTION()
 	void CalculateBalance();
