@@ -34,7 +34,7 @@ public:
 	FOnStateChangedDynamicSignature OnStateChanged;
 
 	UFUNCTION(BlueprintGetter)
-	EEntityState GetEntityState() const { return CurrentState; }
+	EEntityState GetCurrentState() const { return CurrentState; }
 
 	UFUNCTION(BlueprintCallable)
 	void ActivateEntity();
