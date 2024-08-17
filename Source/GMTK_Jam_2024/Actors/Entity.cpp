@@ -11,11 +11,17 @@ AEntity::AEntity()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
+	Root = CreateDefaultSubobject<USceneComponent>("Root");
+	SetRootComponent(Root);
+	
 	Collision = CreateDefaultSubobject<UBoxComponent>(FName("Collision"));
-	SetRootComponent(Collision);
+	Collision->SetupAttachment(Root);
 
+	VisualsAnchor = CreateDefaultSubobject<USceneComponent>("VisualsAnchor");
+	VisualsAnchor->SetupAttachment(Root);
+	
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
-	StaticMeshComponent->SetupAttachment(GetRootComponent());
+	StaticMeshComponent->SetupAttachment(VisualsAnchor);
 
 	WeightComponent = CreateDefaultSubobject<UWeightComponent>(FName("Weight"));
 }
