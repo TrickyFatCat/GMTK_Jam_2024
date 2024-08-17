@@ -24,6 +24,7 @@ bool UEntityManagerComponent::AddEntity(AEntity* Entity)
 	}
 
 	AddedEntities.AddUnique(Entity);
+	OnEntityAdded.Broadcast(this, Entity);
 	return true;
 }
 
@@ -35,5 +36,6 @@ bool UEntityManagerComponent::RemoveEntity(AEntity* Entity)
 	}
 
 	AddedEntities.RemoveSingle(Entity);
+	OnEntityRemoved.Broadcast(this, Entity);
 	return true;
 }
