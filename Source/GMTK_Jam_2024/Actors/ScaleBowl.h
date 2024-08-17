@@ -22,10 +22,10 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	bool AddEntity(AEntityBase* Entity);
+	bool AddEntity(AEntityBase* Entity) const;
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveEntity(AEntityBase* Entity);
+	bool RemoveEntity(AEntityBase* Entity) const;
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)

@@ -34,12 +34,12 @@ void AScaleBowl::BeginPlay()
 	}
 }
 
-bool AScaleBowl::AddEntity(AEntityBase* Entity)
+bool AScaleBowl::AddEntity(AEntityBase* Entity) const
 {
 	return EntityManagerComponent->AddEntity(Entity);
 }
 
-bool AScaleBowl::RemoveEntity(AEntityBase* Entity)
+bool AScaleBowl::RemoveEntity(AEntityBase* Entity) const
 {
 	return EntityManagerComponent->RemoveEntity(Entity);
 }
