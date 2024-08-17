@@ -25,13 +25,13 @@ ABowl::ABowl()
 
 void ABowl::BeginPlay()
 {
-	Super::BeginPlay();
-
 	if (IsValid(EntityManagerComponent))
 	{
 		EntityManagerComponent->OnEntityAdded.AddUniqueDynamic(this, &ABowl::HandleEntityAdded);
 		EntityManagerComponent->OnEntityRemoved.AddUniqueDynamic(this, &ABowl::HandleEntityRemoved);
 	}
+	
+	Super::BeginPlay();
 }
 
 bool ABowl::AddEntity(AEntity* Entity) const
