@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Scales.generated.h"
 
+class UEntitySpawnerComponent;
 class UWeightComponent;
 class UEntityManagerComponent;
 class AEntity;
@@ -33,6 +34,9 @@ public:
 	float GetWeightBalance() const { return WeightBalance; }
 	
 protected:
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UEntitySpawnerComponent> EntitySpawnerComponent;
+	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* LeftBowl = nullptr;
 	
@@ -57,4 +61,7 @@ private:
 
 	UFUNCTION()
 	void HandleWeightRemoved(UWeightComponent* WeightComponent, const int32 NewWeight, const int32 DeltaWeight);
+
+	UFUNCTION()
+	void HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity);
 };

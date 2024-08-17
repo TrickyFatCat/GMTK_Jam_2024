@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "Bowl.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
+#include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 #include "GMTK_Jam_2024/Core/JamCoreGameMode.h"
 #include "GMTK_Jam_2024/Core/JamUtils.h"
@@ -14,10 +15,16 @@
 AScales::AScales()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	EntitySpawnerComponent = CreateDefaultSubobject<UEntitySpawnerComponent>("EntitySpawnerComponent");
 }
 
 void AScales::BeginPlay()
 {
+	if (IsValid(EntitySpawnerComponent))
+	{
+		EntitySpawnerComponent->OnEntitySpawned.AddUniqueDynamic(this, &AScales::HandleEntitySpawn);
+	}
+	
 	if (IsValid(RightBowl))
 	{
 		RightBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
@@ -104,4 +111,10 @@ void AScales::HandleWeightRemoved(UWeightComponent* WeightComponent,
                                   const int32 DeltaWeight)
 {
 	CalculateBalance();
+}
+
+void AScales::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity)
+{
+	NewEntity->AttachToActor(LeftBowl, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	AddTargetEntity(NewEntity);
 }
