@@ -20,6 +20,13 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+public:
+	UFUNCTION(BlueprintCallable)
+	bool AddEntity(AEntityBase* Entity);
+
+	UFUNCTION(BlueprintCallable)
+	bool RemoveEntity(AEntityBase* Entity);
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<USceneComponent> Root = nullptr;

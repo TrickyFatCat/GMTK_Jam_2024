@@ -34,6 +34,16 @@ void AScaleBowl::BeginPlay()
 	}
 }
 
+bool AScaleBowl::AddEntity(AEntityBase* Entity)
+{
+	return EntityManagerComponent->AddEntity(Entity);
+}
+
+bool AScaleBowl::RemoveEntity(AEntityBase* Entity)
+{
+	return EntityManagerComponent->RemoveEntity(Entity);
+}
+
 void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* EntityManagerComponent, AEntityBase* Entity)
 {
 	if(!IsValid(Entity))
