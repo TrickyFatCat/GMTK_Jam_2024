@@ -4,6 +4,7 @@
 #include "Entity.h"
 
 #include "Components/BoxComponent.h"
+#include "GMTK_Jam_2024/Components/EntityStateControllerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 
 
@@ -23,7 +24,8 @@ AEntity::AEntity()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
 	StaticMeshComponent->SetupAttachment(VisualsAnchor);
 
-	WeightComponent = CreateDefaultSubobject<UWeightComponent>(FName("Weight"));
+	WeightComponent = CreateDefaultSubobject<UWeightComponent>("Weight");
+	EntityStateControllerComponent = CreateDefaultSubobject<UEntityStateControllerComponent>("EntityStateController");
 }
 
 int32 AEntity::GetCurrentWeight() const
@@ -34,4 +36,29 @@ int32 AEntity::GetCurrentWeight() const
 	}
 
 	return WeightComponent->GetCurrentWeight();
+}
+
+EEntityState AEntity::GetCurrentState() const
+{
+	return EntityStateControllerComponent->GetCurrentState();
+}
+
+void AEntity::ActivateEntity()
+{
+	EntityStateControllerComponent->Activate();
+}
+
+void AEntity::DisableEntity()
+{
+	EntityStateControllerComponent->DisableEntity();
+}
+
+void AEntity::HandleStateChanged(UEntityStateControllerComponent* Component, const EEntityState NewState)
+{
+	switch (NewState)
+	{
+	case EEntityState::Disabled:
+		Collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		break;
+	}
 }

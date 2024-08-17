@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Entity.generated.h"
 
+enum class EEntityState : uint8;
+class UEntityStateControllerComponent;
 class UWeightComponent;
 class UBoxComponent;
 class UStaticMeshComponent;
@@ -20,6 +22,15 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentWeight() const;
+
+	UFUNCTION(BlueprintPure)
+	EEntityState GetCurrentState() const;
+
+	UFUNCTION(BlueprintCallable)
+	void ActivateEntity();
+
+	UFUNCTION(BlueprintCallable)
+	void DisableEntity();
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
@@ -36,4 +47,11 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UWeightComponent> WeightComponent = nullptr;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UEntityStateControllerComponent> EntityStateControllerComponent = nullptr;
+
+private:
+	UFUNCTION()
+	void HandleStateChanged(UEntityStateControllerComponent* Component, EEntityState NewState);
 };

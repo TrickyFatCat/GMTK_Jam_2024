@@ -143,6 +143,7 @@ void AScales::HandleWeightRemoved(UWeightComponent* WeightComponent,
 
 void AScales::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity)
 {
+	NewEntity->DisableEntity();
 	NewEntity->AttachToActor(LeftBowl, FAttachmentTransformRules::SnapToTargetIncludingScale);
 	AddTargetEntity(NewEntity);
 }
