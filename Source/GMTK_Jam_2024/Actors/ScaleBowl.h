@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool RemoveEntity(AEntityBase* Entity) const;
 
+	UFUNCTION(BlueprintPure)
+	int32 GetWeight() const;
+
 	UFUNCTION(BluerintGetter)
 	TObjectPtr<UWeightComponent> GetWeightComponent() const { return WeightComponent; }
 

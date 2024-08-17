@@ -44,6 +44,11 @@ bool AScaleBowl::RemoveEntity(AEntityBase* Entity) const
 	return EntityManagerComponent->RemoveEntity(Entity);
 }
 
+int32 AScaleBowl::GetWeight() const
+{
+	return WeightComponent->GetCurrentWeight();
+}
+
 void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* EntityManagerComponent, AEntityBase* Entity)
 {
 	if(!IsValid(Entity))
