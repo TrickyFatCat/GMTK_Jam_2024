@@ -9,7 +9,7 @@
 class UWeightComponent;
 class UEntityManagerComponent;
 class AEntityBase;
-class AScaleBowl;
+class ABowl;
 
 UCLASS()
 class GMTK_JAM_2024_API AScales : public AActor
@@ -34,10 +34,10 @@ public:
 	
 protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
-	AScaleBowl* LeftScaleBowl = nullptr;
+	ABowl* LeftScaleBowl = nullptr;
 	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
-	AScaleBowl* RightScaleBowl = nullptr;
+	ABowl* RightBowl = nullptr;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetWeightBalance)
 	float WeightBalance = 0.0f;

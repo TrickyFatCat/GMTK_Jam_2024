@@ -4,7 +4,7 @@
 #include "Scales.h"
 
 #include "EntityBase.h"
-#include "ScaleBowl.h"
+#include "Bowl.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 
@@ -18,41 +18,41 @@ void AScales::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (IsValid(RightScaleBowl))
+	if (IsValid(RightBowl))
 	{
-		RightScaleBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
-		RightScaleBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
+		RightBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
+		RightBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
 	}
 }
 
 bool AScales::AddEntity(AEntityBase* Entity) const
 {
-	if (!IsValid(Entity) || !IsValid(RightScaleBowl))
+	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
 		return false;
 	}
 
-	return RightScaleBowl->AddEntity(Entity);
+	return RightBowl->AddEntity(Entity);
 }
 
 bool AScales::RemoveEntity(AEntityBase* Entity) const
 {
-	if (!IsValid(Entity) || !IsValid(RightScaleBowl))
+	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
 		return false;
 	}
 
-	return RightScaleBowl->RemoveEntity(Entity);
+	return RightBowl->RemoveEntity(Entity);
 }
 
 void AScales::CalculateBalance()
 {
-	if (!IsValid(RightScaleBowl) || !IsValid(LeftScaleBowl))
+	if (!IsValid(RightBowl) || !IsValid(LeftScaleBowl))
 	{
 		return;
 	}
 	
-	const float RightBowlWeight = static_cast<float>(RightScaleBowl->GetWeight());
+	const float RightBowlWeight = static_cast<float>(RightBowl->GetWeight());
 	const float LeftBowlWeight = static_cast<float>(LeftScaleBowl->GetWeight());
 	WeightBalance = RightBowlWeight / LeftBowlWeight - 1.f;
 }

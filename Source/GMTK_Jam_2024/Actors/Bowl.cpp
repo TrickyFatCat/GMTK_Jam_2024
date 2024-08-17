@@ -1,14 +1,14 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ScaleBowl.h"
+#include "Bowl.h"
 
 #include "EntityBase.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 
 
-AScaleBowl::AScaleBowl()
+ABowl::ABowl()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -23,33 +23,33 @@ AScaleBowl::AScaleBowl()
 	EntityManagerComponent = CreateDefaultSubobject<UEntityManagerComponent>("EntityManager");
 }
 
-void AScaleBowl::BeginPlay()
+void ABowl::BeginPlay()
 {
 	Super::BeginPlay();
 
 	if (IsValid(EntityManagerComponent))
 	{
-		EntityManagerComponent->OnEntityAdded.AddUniqueDynamic(this, &AScaleBowl::HandleEntityAdded);
-		EntityManagerComponent->OnEntityRemoved.AddUniqueDynamic(this, &AScaleBowl::HandleEntityRemoved);
+		EntityManagerComponent->OnEntityAdded.AddUniqueDynamic(this, &ABowl::HandleEntityAdded);
+		EntityManagerComponent->OnEntityRemoved.AddUniqueDynamic(this, &ABowl::HandleEntityRemoved);
 	}
 }
 
-bool AScaleBowl::AddEntity(AEntityBase* Entity) const
+bool ABowl::AddEntity(AEntityBase* Entity) const
 {
 	return EntityManagerComponent->AddEntity(Entity);
 }
 
-bool AScaleBowl::RemoveEntity(AEntityBase* Entity) const
+bool ABowl::RemoveEntity(AEntityBase* Entity) const
 {
 	return EntityManagerComponent->RemoveEntity(Entity);
 }
 
-int32 AScaleBowl::GetWeight() const
+int32 ABowl::GetWeight() const
 {
 	return WeightComponent->GetCurrentWeight();
 }
 
-void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* Entity)
+void ABowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* Entity)
 {
 	if(!IsValid(Entity))
 	{
@@ -59,7 +59,7 @@ void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntityBa
 	WeightComponent->AddWeight(Entity->GetCurrentWeight());
 }
 
-void AScaleBowl::HandleEntityRemoved(UEntityManagerComponent* Component, AEntityBase* Entity)
+void ABowl::HandleEntityRemoved(UEntityManagerComponent* Component, AEntityBase* Entity)
 {
 	if (!IsValid(Entity))
 	{

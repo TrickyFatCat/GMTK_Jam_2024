@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ScaleBowl.generated.h"
+#include "Bowl.generated.h"
 
 class UWeightComponent;
 class UEntityManagerComponent;
 class AEntityBase;
 
 UCLASS()
-class GMTK_JAM_2024_API AScaleBowl : public AActor
+class GMTK_JAM_2024_API ABowl : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AScaleBowl();
+	ABowl();
 
 protected:
 	virtual void BeginPlay() override;
