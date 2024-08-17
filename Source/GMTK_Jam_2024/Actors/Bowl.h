@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool RemoveEntity(AEntity* Entity) const;
 
+	UFUNCTION(BlueprintCallable)
+	void RemoveAllEntities();
+
 	UFUNCTION(BlueprintPure)
 	int32 GetWeight() const;
 
