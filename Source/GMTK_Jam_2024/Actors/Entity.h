@@ -20,6 +20,10 @@ class GMTK_JAM_2024_API AEntity : public AActor
 public:
 	AEntity();
 
+protected:
+	virtual void BeginPlay() override;
+
+public:
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentWeight() const;
 
@@ -52,6 +56,9 @@ protected:
 	TObjectPtr<UEntityStateControllerComponent> EntityStateControllerComponent = nullptr;
 
 private:
+	UFUNCTION()
+	void HandleMouseClick(AActor* TouchedActor, FKey ButtonPressed);
+	
 	UFUNCTION()
 	void HandleStateChanged(UEntityStateControllerComponent* Component, EEntityState NewState);
 };

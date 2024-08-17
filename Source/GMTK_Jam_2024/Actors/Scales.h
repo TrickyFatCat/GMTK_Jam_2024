@@ -66,9 +66,6 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	bool AddTargetEntity(AEntity* Entity);
 	
-	UFUNCTION(BlueprintCallable)
-	bool RemoveTargetEntity(AEntity* Entity);
-
 private:
 	UFUNCTION()
 	void CalculateBalance();
@@ -93,4 +90,7 @@ private:
 
 	UFUNCTION()
 	void HandleFailureThresholdReached(UFailuresCounterComponent* Component);
+
+	UFUNCTION()
+	void HandleEntityDestroyed(AActor* Entity);
 };

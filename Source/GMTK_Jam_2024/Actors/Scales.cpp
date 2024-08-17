@@ -72,7 +72,13 @@ bool AScales::AddEntity(AEntity* Entity)
 		return false;
 	}
 
-	return RightBowl->AddEntity(Entity);
+	if (!RightBowl->AddEntity(Entity))
+	{
+		return false;
+	}
+
+	Entity->OnDestroyed.AddDynamic(this, &AScales::HandleEntityDestroyed);
+	return true;
 }
 
 bool AScales::RemoveEntity(AEntity* Entity)
@@ -93,16 +99,6 @@ bool AScales::AddTargetEntity(AEntity* Entity)
 	}
 
 	return LeftBowl->AddEntity(Entity);
-}
-
-bool AScales::RemoveTargetEntity(AEntity* Entity)
-{
-	if (!IsValid(Entity) || !IsValid(LeftBowl))
-	{
-		return false;
-	}
-
-	return false;
 }
 
 void AScales::CalculateBalance()
@@ -172,4 +168,9 @@ void AScales::HandleRoundFinished(URoundControllerComponent* Component, const in
 void AScales::HandleFailureThresholdReached(UFailuresCounterComponent* Component)
 {
 	UJamUtils::GetCoreGameMode(this)->FinishSession(false);
+}
+
+void AScales::HandleEntityDestroyed(AActor* Entity)
+{
+	RemoveEntity(Cast<AEntity>(Entity));
 }
