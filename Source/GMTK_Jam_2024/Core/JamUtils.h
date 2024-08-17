@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "JamUtils.generated.h"
 
+class AJamCoreGameMode;
 /**
  * 
  */
@@ -17,4 +18,7 @@ class GMTK_JAM_2024_API UJamUtils : public UBlueprintFunctionLibrary
 public:
 	UFUNCTION(BlueprintPure, meta=(WorldContext = "WorldContextObj", DefaultToSelf))
 	static AScales* GetRegisteredScales(const UObject* WorldContextObj);
+
+	UFUNCTION(BlueprintPure, meta=(WorldContext = "WorldContextObj", DefaultToSelf))
+	static AJamCoreGameMode* GetCoreGameMode(const UObject* WorldContextObj);
 };

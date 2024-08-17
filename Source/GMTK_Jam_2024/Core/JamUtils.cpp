@@ -8,7 +8,7 @@
 
 AScales* UJamUtils::GetRegisteredScales(const UObject* WorldContextObj)
 {
-	const AJamCoreGameMode* GameMode = Cast<AJamCoreGameMode>(UGameplayStatics::GetGameMode(WorldContextObj));
+	const AJamCoreGameMode* GameMode = GetCoreGameMode(WorldContextObj);
 
 	if (!IsValid(GameMode))
 	{
@@ -16,4 +16,9 @@ AScales* UJamUtils::GetRegisteredScales(const UObject* WorldContextObj)
 	}
 
 	return GameMode->GetScales();
+}
+
+AJamCoreGameMode* UJamUtils::GetCoreGameMode(const UObject* WorldContextObj)
+{
+	return Cast<AJamCoreGameMode>(UGameplayStatics::GetGameMode(WorldContextObj));
 }
