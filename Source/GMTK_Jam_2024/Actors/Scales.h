@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ScaleBalance.generated.h"
+#include "Scales.generated.h"
 
 class UWeightComponent;
 class UEntityManagerComponent;
@@ -12,12 +12,12 @@ class AEntityBase;
 class AScaleBowl;
 
 UCLASS()
-class GMTK_JAM_2024_API AScaleBalance : public AActor
+class GMTK_JAM_2024_API AScales : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AScaleBalance();
+	AScales();
 
 protected:
 	virtual void BeginPlay() override;
