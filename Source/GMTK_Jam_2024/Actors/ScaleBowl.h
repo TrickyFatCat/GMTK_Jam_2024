@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "ScaleBowl.generated.h"
 
+class UWeightComponent;
 class UEntityManagerComponent;
 class AEntityBase;
 
@@ -27,6 +28,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool RemoveEntity(AEntityBase* Entity) const;
 
+	UFUNCTION(BluerintGetter)
+	TObjectPtr<UWeightComponent> GetWeightComponent() const { return WeightComponent; }
+
+	UFUNCTION(BlueprintGetter)
+	TObjectPtr<UEntityManagerComponent> GetEntityManagerComponent() const { return EntityManagerComponent; }
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<USceneComponent> Root = nullptr;
@@ -34,10 +41,10 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> StaticMeshComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetWeightComponent)
 	TObjectPtr<UWeightComponent> WeightComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetEntityManagerComponent)
 	TObjectPtr<UEntityManagerComponent> EntityManagerComponent = nullptr;
 
 private:
