@@ -30,5 +30,12 @@ void URoundControllerComponent::StartRound()
 
 void URoundControllerComponent::FinishRound()
 {
+	FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+
+	if (TimerManager.IsTimerActive(RoundTimer))
+	{
+		TimerManager.ClearTimer(RoundTimer);
+	}
+	
 	OnRoundFinished.Broadcast(this, RoundIndex);
 }
