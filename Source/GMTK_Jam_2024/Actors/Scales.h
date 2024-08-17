@@ -33,6 +33,9 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	float GetWeightBalance() const { return WeightBalance; }
+
+	UFUNCTION(BlueprintGetter)
+	URoundControllerComponent* GetRoundControllerComponent() const { return RoundControllerComponent; }
 	
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)

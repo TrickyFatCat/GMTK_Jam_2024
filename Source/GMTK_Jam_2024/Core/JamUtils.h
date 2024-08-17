@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "JamUtils.generated.h"
 
+class URoundControllerComponent;
 class AJamCoreGameMode;
 /**
  * 
@@ -21,4 +22,7 @@ public:
 
 	UFUNCTION(BlueprintPure, meta=(WorldContext = "WorldContextObj", DefaultToSelf))
 	static AJamCoreGameMode* GetCoreGameMode(const UObject* WorldContextObj);
+
+	UFUNCTION(BlueprintPure, meta=(WorldContext = "WorldContextObj", DefaultToSelf))
+	static URoundControllerComponent* GetRoundControllerComponent(const UObject* WorldContextObj);
 };
