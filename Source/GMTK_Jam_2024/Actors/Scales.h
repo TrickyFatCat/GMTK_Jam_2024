@@ -72,6 +72,9 @@ protected:
 private:
 	UFUNCTION()
 	void CalculateBalance();
+
+	UFUNCTION()
+	void HandleGameStateChanged(EGameModeState NewState);
 	
 	UFUNCTION()
 	void HandleWeightAdded(UWeightComponent* WeightComponent, const int32 NewWeight, const int32 DeltaWeight);

@@ -59,6 +59,7 @@ void AScales::BeginPlay()
 	if (IsValid(GameMode))
 	{
 		GameMode->RegisterScales(this);
+		GameMode->OnStateChanged.AddUniqueDynamic(this, &AScales::AScales::HandleGameStateChanged);
 	}
 
 	Super::BeginPlay();
@@ -114,6 +115,16 @@ void AScales::CalculateBalance()
 	const float RightBowlWeight = static_cast<float>(RightBowl->GetWeight());
 	const float LeftBowlWeight = static_cast<float>(LeftBowl->GetWeight());
 	WeightBalance = LeftBowlWeight <= 0.f ? 0.f : RightBowlWeight / LeftBowlWeight - 1.f;
+}
+
+void AScales::HandleGameStateChanged(EGameModeState NewState)
+{
+	switch (NewState)
+	{
+	case EGameModeState::InProgress:
+		RoundControllerComponent->StartRound();
+		break;
+	}
 }
 
 void AScales::HandleWeightAdded(UWeightComponent* WeightComponent,
