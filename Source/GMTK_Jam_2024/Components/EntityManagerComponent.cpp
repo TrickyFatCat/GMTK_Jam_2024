@@ -18,7 +18,7 @@ void UEntityManagerComponent::InitializeComponent()
 
 bool UEntityManagerComponent::AddEntity(AEntityBase* Entity)
 {
-	if (!IsValid(Entity) || AddedEntities.Contains(Entity))
+	if (!IsValid(Entity) || AddedEntities.Contains(Entity) || AddedEntities.Num() >= MaxEntitiesNum)
 	{
 		return false;
 	}

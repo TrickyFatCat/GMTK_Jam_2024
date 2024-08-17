@@ -42,6 +42,9 @@ public:
 	bool RemoveEntity(AEntityBase* Entity);
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 MaxEntitiesNum = 1;
+	
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
 	TArray<AEntityBase*> AddedEntities;
 };
