@@ -41,7 +41,7 @@ bool ABowl::AddEntity(AEntity* Entity) const
 
 bool ABowl::RemoveEntity(AEntity* Entity) const
 {
-	return EntityManagerComponent->RemoveEntity(Entity);
+	return EntityManagerComponent->RemoveEntity(Entity, true);
 }
 
 void ABowl::RemoveAllEntities()
