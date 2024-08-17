@@ -49,7 +49,7 @@ int32 AScaleBowl::GetWeight() const
 	return WeightComponent->GetCurrentWeight();
 }
 
-void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* EntityManagerComponent, AEntityBase* Entity)
+void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* Entity)
 {
 	if(!IsValid(Entity))
 	{
@@ -59,7 +59,7 @@ void AScaleBowl::HandleEntityAdded(UEntityManagerComponent* EntityManagerCompone
 	WeightComponent->AddWeight(Entity->GetCurrentWeight());
 }
 
-void AScaleBowl::HandleEntityRemoved(UEntityManagerComponent* EntityManagerComponent, AEntityBase* Entity)
+void AScaleBowl::HandleEntityRemoved(UEntityManagerComponent* Component, AEntityBase* Entity)
 {
 	if (!IsValid(Entity))
 	{

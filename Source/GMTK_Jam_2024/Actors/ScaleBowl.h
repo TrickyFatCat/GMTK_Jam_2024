@@ -32,10 +32,10 @@ public:
 	int32 GetWeight() const;
 
 	UFUNCTION(BlueprintGetter)
-	TObjectPtr<UWeightComponent> GetWeightComponent() const { return WeightComponent; }
+	UWeightComponent* GetWeightComponent() const { return WeightComponent; }
 
 	UFUNCTION(BlueprintGetter)
-	TObjectPtr<UEntityManagerComponent> GetEntityManagerComponent() const { return EntityManagerComponent; }
+	UEntityManagerComponent* GetEntityManagerComponent() const { return EntityManagerComponent; }
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
@@ -52,8 +52,8 @@ protected:
 
 private:
 	UFUNCTION()
-	void HandleEntityAdded(UEntityManagerComponent* EntityManagerComponent, AEntityBase* Entity);
+	void HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* Entity);
 
 	UFUNCTION()
-	void HandleEntityRemoved(UEntityManagerComponent* EntityManagerComponent, AEntityBase* Entity);
+	void HandleEntityRemoved(UEntityManagerComponent* Component, AEntityBase* Entity);
 };
