@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintGetter)
 	int32 GetFailuresThreshold() const { return FailuresThreshold; }
 
+	UFUNCTION(BlueprintPure)
+	bool CanFail() const { return FailuresNumber < FailuresThreshold; }
+
 protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetFailuresNumber)
 	int32 FailuresNumber = 0;

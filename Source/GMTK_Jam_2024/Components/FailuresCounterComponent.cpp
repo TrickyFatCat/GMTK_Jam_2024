@@ -19,7 +19,7 @@ void UFailuresCounterComponent::IncreaseFailureCount()
 	FailuresNumber += 1;
 	OnFailuresNumberIncreased.Broadcast(this, FailuresNumber);
 
-	if (FailuresNumber > FailuresThreshold)
+	if (!CanFail())
 	{
 		OnFailuresThresholdReached.Broadcast(this);
 	}
