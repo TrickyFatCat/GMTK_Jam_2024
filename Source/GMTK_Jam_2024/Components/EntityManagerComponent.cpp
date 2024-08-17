@@ -28,7 +28,7 @@ bool UEntityManagerComponent::AddEntity(AEntity* Entity)
 	return true;
 }
 
-bool UEntityManagerComponent::RemoveEntity(AEntity* Entity)
+bool UEntityManagerComponent::RemoveEntity(AEntity* Entity, const bool bDestroy)
 {
 	if (!IsValid(Entity) || !AddedEntities.Contains(Entity))
 	{
@@ -37,7 +37,11 @@ bool UEntityManagerComponent::RemoveEntity(AEntity* Entity)
 
 	AddedEntities.RemoveSingle(Entity);
 	OnEntityRemoved.Broadcast(this, Entity);
-	Entity->Destroy();
+
+	if (bDestroy)
+	{
+		Entity->Destroy();
+	}
 	return true;
 }
 
@@ -49,7 +53,7 @@ void UEntityManagerComponent::RemoveAllEntities()
 	}
 
 	const TArray<AEntity*> Entities = AddedEntities;
-	
+
 	for (AEntity* Entity : Entities)
 	{
 		RemoveEntity(Entity);

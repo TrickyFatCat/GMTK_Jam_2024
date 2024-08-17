@@ -39,7 +39,7 @@ public:
 	bool AddEntity(AEntity* Entity);
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveEntity(AEntity* Entity);
+	bool RemoveEntity(AEntity* Entity, const bool bDestroy = false);
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveAllEntities();
