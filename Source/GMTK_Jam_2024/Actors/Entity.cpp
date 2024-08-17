@@ -14,13 +14,13 @@ AEntity::AEntity()
 	Root = CreateDefaultSubobject<USceneComponent>("Root");
 	SetRootComponent(Root);
 	
-	Collision = CreateDefaultSubobject<UBoxComponent>(FName("Collision"));
+	Collision = CreateDefaultSubobject<UBoxComponent>("Collision");
 	Collision->SetupAttachment(Root);
 
 	VisualsAnchor = CreateDefaultSubobject<USceneComponent>("VisualsAnchor");
 	VisualsAnchor->SetupAttachment(Root);
 	
-	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("StaticMesh"));
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
 	StaticMeshComponent->SetupAttachment(VisualsAnchor);
 
 	WeightComponent = CreateDefaultSubobject<UWeightComponent>(FName("Weight"));
