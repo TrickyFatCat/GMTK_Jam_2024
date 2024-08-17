@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Scales.generated.h"
 
+class URoundControllerComponent;
 class UEntitySpawnerComponent;
 class UWeightComponent;
 class UEntityManagerComponent;
@@ -37,6 +38,9 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UEntitySpawnerComponent> EntitySpawnerComponent;
 	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<URoundControllerComponent> RoundControllerComponent;
+	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* LeftBowl = nullptr;
 	
@@ -64,4 +68,10 @@ private:
 
 	UFUNCTION()
 	void HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity);
+
+	UFUNCTION()
+	void HandleRoundStarted(URoundControllerComponent* Component, const int32 RoundIdx);
+	
+	UFUNCTION()
+	void HandleRoundFinished(URoundControllerComponent* Component, const int32 RoundIdx);
 };

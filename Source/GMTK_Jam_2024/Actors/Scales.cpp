@@ -7,6 +7,7 @@
 #include "Bowl.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
+#include "GMTK_Jam_2024/Components/RoundControllerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 #include "GMTK_Jam_2024/Core/JamCoreGameMode.h"
 #include "GMTK_Jam_2024/Core/JamUtils.h"
@@ -15,7 +16,9 @@
 AScales::AScales()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	
 	EntitySpawnerComponent = CreateDefaultSubobject<UEntitySpawnerComponent>("EntitySpawnerComponent");
+	RoundControllerComponent = CreateDefaultSubobject<URoundControllerComponent>("RoundControllerComponent");
 }
 
 void AScales::BeginPlay()
@@ -35,6 +38,12 @@ void AScales::BeginPlay()
 	{
 		LeftBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
 		LeftBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
+	}
+
+	if (IsValid(EntitySpawnerComponent))
+	{
+		RoundControllerComponent->OnRoundStarted.AddUniqueDynamic(this, &AScales::HandleRoundStarted);
+		RoundControllerComponent->OnRoundFinished.AddUniqueDynamic(this, &AScales::HandleRoundFinished);
 	}
 
 	AJamCoreGameMode* GameMode = UJamUtils::GetCoreGameMode(this);
@@ -84,7 +93,7 @@ bool AScales::RemoveTargetEntity(AEntity* Entity)
 		return false;
 	}
 
-	return LeftBowl->RemoveEntity(Entity);
+	return false;
 }
 
 void AScales::CalculateBalance()
@@ -117,4 +126,16 @@ void AScales::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* New
 {
 	NewEntity->AttachToActor(LeftBowl, FAttachmentTransformRules::SnapToTargetIncludingScale);
 	AddTargetEntity(NewEntity);
+}
+
+void AScales::HandleRoundStarted(URoundControllerComponent* Component, const int32 RoundIdx)
+{
+	EntitySpawnerComponent->SpawnEntity(LeftBowl->GetTransform());
+}
+
+void AScales::HandleRoundFinished(URoundControllerComponent* Component, const int32 RoundIdx)
+{
+	LeftBowl->RemoveAllEntities();
+	RightBowl->RemoveAllEntities();
+	RoundControllerComponent->StartRound();
 }
