@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DisableEntity();
 
+	UFUNCTION(BlueprintGetter)
+	UEntityStateControllerComponent* GetEntityStateControllerComponent() const { return EntityStateControllerComponent; }
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<USceneComponent> Root = nullptr;
@@ -52,7 +55,7 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UWeightComponent> WeightComponent = nullptr;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetEntityStateControllerComponent)
 	TObjectPtr<UEntityStateControllerComponent> EntityStateControllerComponent = nullptr;
 
 private:
