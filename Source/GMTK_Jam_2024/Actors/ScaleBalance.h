@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "ScaleBalance.generated.h"
 
+class UWeightComponent;
+class UEntityManagerComponent;
 class AEntityBase;
 class AScaleBowl;
 
@@ -26,6 +28,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	bool RemoveEntity(AEntityBase* Entity) const;
+
+	UFUNCTION(BlueprintGetter)
+	float GetWeightBalance() const { return WeightBalance; }
 	
 protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
@@ -33,4 +38,17 @@ protected:
 	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	AScaleBowl* RightScaleBowl = nullptr;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetWeightBalance)
+	float WeightBalance = 0.0f;
+
+private:
+	UFUNCTION()
+	void CalculateBalance();
+	
+	UFUNCTION()
+	void HandleWeightAdded(UWeightComponent* WeightComponent, const int32 NewWeight, const int32 DeltaWeight);
+
+	UFUNCTION()
+	void HandleWeightRemoved(UWeightComponent* WeightComponent, const int32 NewWeight, const int32 DeltaWeight);
 };
