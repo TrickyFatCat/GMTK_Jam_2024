@@ -34,6 +34,7 @@ void AScales::BeginPlay()
 	{
 		RightBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
 		RightBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
+		RightBowl->GetEntityManagerComponent()->OnEntityAdded.AddUniqueDynamic(this, &AScales::HandleEntityAdded);
 	}
 
 	if (IsValid(LeftBowl))
@@ -72,13 +73,7 @@ bool AScales::AddEntity(AEntity* Entity)
 		return false;
 	}
 
-	if (!RightBowl->AddEntity(Entity))
-	{
-		return false;
-	}
-
-	Entity->OnDestroyed.AddDynamic(this, &AScales::HandleEntityDestroyed);
-	return true;
+	return RightBowl->AddEntity(Entity);
 }
 
 bool AScales::RemoveEntity(AEntity* Entity)
@@ -135,6 +130,17 @@ void AScales::HandleWeightRemoved(UWeightComponent* WeightComponent,
                                   const int32 DeltaWeight)
 {
 	CalculateBalance();
+}
+
+void AScales::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Entity)
+{
+	if (!IsValid(Entity))
+	{
+		return;
+	}
+
+	Entity->OnDestroyed.AddDynamic(this, &AScales::HandleEntityDestroyed);
+	Entity->AttachToActor(RightBowl, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 }
 
 void AScales::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity)

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Entity.h"
 #include "GameFramework/Actor.h"
 #include "Scales.generated.h"
 
@@ -78,6 +79,9 @@ private:
 
 	UFUNCTION()
 	void HandleWeightRemoved(UWeightComponent* WeightComponent, const int32 NewWeight, const int32 DeltaWeight);
+
+	UFUNCTION()
+	void HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Entity);
 
 	UFUNCTION()
 	void HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity);
