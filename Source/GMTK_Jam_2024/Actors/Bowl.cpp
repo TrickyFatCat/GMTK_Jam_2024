@@ -3,7 +3,7 @@
 
 #include "Bowl.h"
 
-#include "EntityBase.h"
+#include "Entity.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 
@@ -34,12 +34,12 @@ void ABowl::BeginPlay()
 	}
 }
 
-bool ABowl::AddEntity(AEntityBase* Entity) const
+bool ABowl::AddEntity(AEntity* Entity) const
 {
 	return EntityManagerComponent->AddEntity(Entity);
 }
 
-bool ABowl::RemoveEntity(AEntityBase* Entity) const
+bool ABowl::RemoveEntity(AEntity* Entity) const
 {
 	return EntityManagerComponent->RemoveEntity(Entity);
 }
@@ -49,7 +49,7 @@ int32 ABowl::GetWeight() const
 	return WeightComponent->GetCurrentWeight();
 }
 
-void ABowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* Entity)
+void ABowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Entity)
 {
 	if(!IsValid(Entity))
 	{
@@ -59,7 +59,7 @@ void ABowl::HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* E
 	WeightComponent->AddWeight(Entity->GetCurrentWeight());
 }
 
-void ABowl::HandleEntityRemoved(UEntityManagerComponent* Component, AEntityBase* Entity)
+void ABowl::HandleEntityRemoved(UEntityManagerComponent* Component, AEntity* Entity)
 {
 	if (!IsValid(Entity))
 	{

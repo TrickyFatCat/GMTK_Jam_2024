@@ -3,7 +3,7 @@
 
 #include "Scales.h"
 
-#include "EntityBase.h"
+#include "Entity.h"
 #include "Bowl.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
@@ -25,7 +25,7 @@ void AScales::BeginPlay()
 	}
 }
 
-bool AScales::AddEntity(AEntityBase* Entity) const
+bool AScales::AddEntity(AEntity* Entity) const
 {
 	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
@@ -35,7 +35,7 @@ bool AScales::AddEntity(AEntityBase* Entity) const
 	return RightBowl->AddEntity(Entity);
 }
 
-bool AScales::RemoveEntity(AEntityBase* Entity) const
+bool AScales::RemoveEntity(AEntity* Entity) const
 {
 	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{

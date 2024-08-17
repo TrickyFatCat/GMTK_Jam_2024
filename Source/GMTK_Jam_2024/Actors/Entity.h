@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "EntityBase.generated.h"
+#include "Entity.generated.h"
 
 class UWeightComponent;
 class UBoxComponent;
 class UStaticMeshComponent;
 
 UCLASS()
-class GMTK_JAM_2024_API AEntityBase : public AActor
+class GMTK_JAM_2024_API AEntity : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AEntityBase();
+	AEntity();
 
 	UFUNCTION(BlueprintPure)
 	int32 GetCurrentWeight() const;

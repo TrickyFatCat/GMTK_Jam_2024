@@ -8,7 +8,7 @@
 
 class UWeightComponent;
 class UEntityManagerComponent;
-class AEntityBase;
+class AEntity;
 class ABowl;
 
 UCLASS()
@@ -24,10 +24,10 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	bool AddEntity(AEntityBase* Entity) const;
+	bool AddEntity(AEntity* Entity) const;
 	
 	UFUNCTION(BlueprintCallable)
-	bool RemoveEntity(AEntityBase* Entity) const;
+	bool RemoveEntity(AEntity* Entity) const;
 
 	UFUNCTION(BlueprintGetter)
 	float GetWeightBalance() const { return WeightBalance; }

@@ -3,7 +3,7 @@
 
 #include "EntityManagerComponent.h"
 
-#include "GMTK_Jam_2024/Actors/EntityBase.h"
+#include "GMTK_Jam_2024/Actors/Entity.h"
 
 
 UEntityManagerComponent::UEntityManagerComponent()
@@ -16,7 +16,7 @@ void UEntityManagerComponent::InitializeComponent()
 	Super::InitializeComponent();
 }
 
-bool UEntityManagerComponent::AddEntity(AEntityBase* Entity)
+bool UEntityManagerComponent::AddEntity(AEntity* Entity)
 {
 	if (!IsValid(Entity) || AddedEntities.Contains(Entity) || AddedEntities.Num() >= MaxEntitiesNum)
 	{
@@ -27,7 +27,7 @@ bool UEntityManagerComponent::AddEntity(AEntityBase* Entity)
 	return true;
 }
 
-bool UEntityManagerComponent::RemoveEntity(AEntityBase* Entity)
+bool UEntityManagerComponent::RemoveEntity(AEntity* Entity)
 {
 	if (!IsValid(Entity) || !AddedEntities.Contains(Entity))
 	{

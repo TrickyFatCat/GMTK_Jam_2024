@@ -7,15 +7,15 @@
 #include "EntityManagerComponent.generated.h"
 
 
-class AEntityBase;
+class AEntity;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEntityAddedDynamicSignature,
                                              UEntityManagerComponent*, Component,
-                                             AEntityBase*, Entity);
+                                             AEntity*, Entity);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEntityRemovedDynamicSignature,
                                              UEntityManagerComponent*, Component,
-                                             AEntityBase*, Entity);
+                                             AEntity*, Entity);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class GMTK_JAM_2024_API UEntityManagerComponent : public UActorComponent
@@ -36,15 +36,15 @@ public:
 	FOnEntityRemovedDynamicSignature OnEntityRemoved;
 	
 	UFUNCTION(BlueprintCallable)
-	bool AddEntity(AEntityBase* Entity);
+	bool AddEntity(AEntity* Entity);
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveEntity(AEntityBase* Entity);
+	bool RemoveEntity(AEntity* Entity);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int32 MaxEntitiesNum = 1;
 	
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
-	TArray<AEntityBase*> AddedEntities;
+	TArray<AEntity*> AddedEntities;
 };

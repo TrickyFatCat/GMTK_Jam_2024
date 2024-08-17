@@ -8,7 +8,7 @@
 
 class UWeightComponent;
 class UEntityManagerComponent;
-class AEntityBase;
+class AEntity;
 
 UCLASS()
 class GMTK_JAM_2024_API ABowl : public AActor
@@ -23,10 +23,10 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	bool AddEntity(AEntityBase* Entity) const;
+	bool AddEntity(AEntity* Entity) const;
 
 	UFUNCTION(BlueprintCallable)
-	bool RemoveEntity(AEntityBase* Entity) const;
+	bool RemoveEntity(AEntity* Entity) const;
 
 	UFUNCTION(BlueprintPure)
 	int32 GetWeight() const;
@@ -52,8 +52,8 @@ protected:
 
 private:
 	UFUNCTION()
-	void HandleEntityAdded(UEntityManagerComponent* Component, AEntityBase* Entity);
+	void HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Entity);
 
 	UFUNCTION()
-	void HandleEntityRemoved(UEntityManagerComponent* Component, AEntityBase* Entity);
+	void HandleEntityRemoved(UEntityManagerComponent* Component, AEntity* Entity);
 };
