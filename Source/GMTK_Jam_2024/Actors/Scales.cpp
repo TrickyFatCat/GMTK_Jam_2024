@@ -7,6 +7,7 @@
 #include "Bowl.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
+#include "GMTK_Jam_2024/Components/FailuresCounterComponent.h"
 #include "GMTK_Jam_2024/Components/RoundControllerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 #include "GMTK_Jam_2024/Core/JamCoreGameMode.h"
@@ -16,9 +17,10 @@
 AScales::AScales()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
-	EntitySpawnerComponent = CreateDefaultSubobject<UEntitySpawnerComponent>("EntitySpawnerComponent");
-	RoundControllerComponent = CreateDefaultSubobject<URoundControllerComponent>("RoundControllerComponent");
+
+	EntitySpawnerComponent = CreateDefaultSubobject<UEntitySpawnerComponent>("EntitySpawner");
+	RoundControllerComponent = CreateDefaultSubobject<URoundControllerComponent>("RoundController");
+	FailuresCounterComponent = CreateDefaultSubobject<UFailuresCounterComponent>("FailuresCounter");
 }
 
 void AScales::BeginPlay()
@@ -27,7 +29,7 @@ void AScales::BeginPlay()
 	{
 		EntitySpawnerComponent->OnEntitySpawned.AddUniqueDynamic(this, &AScales::HandleEntitySpawn);
 	}
-	
+
 	if (IsValid(RightBowl))
 	{
 		RightBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
@@ -46,13 +48,19 @@ void AScales::BeginPlay()
 		RoundControllerComponent->OnRoundFinished.AddUniqueDynamic(this, &AScales::HandleRoundFinished);
 	}
 
+	if (IsValid(FailuresCounterComponent))
+	{
+		FailuresCounterComponent->OnFailuresThresholdReached.AddUniqueDynamic(
+			this, &AScales::HandleFailureThresholdReached);
+	}
+
 	AJamCoreGameMode* GameMode = UJamUtils::GetCoreGameMode(this);
 
 	if (IsValid(GameMode))
 	{
 		GameMode->RegisterScales(this);
 	}
-	
+
 	Super::BeginPlay();
 }
 
@@ -103,9 +111,9 @@ void AScales::CalculateBalance()
 		return;
 	}
 
-	const float RightBowlWeight = static_cast<float>(RightBowl->GetWeight());
-	const float LeftBowlWeight = static_cast<float>(LeftBowl->GetWeight());
-	WeightBalance = RightBowlWeight / LeftBowlWeight - 1.f;
+	const float RightBowlWeight = RightBowl->GetWeight();
+	const float LeftBowlWeight = LeftBowl->GetWeight();
+	WeightBalance = LeftBowlWeight <= 0.f ? 0.f : RightBowlWeight / LeftBowlWeight - 1.f;
 }
 
 void AScales::HandleWeightAdded(UWeightComponent* WeightComponent,
@@ -135,7 +143,21 @@ void AScales::HandleRoundStarted(URoundControllerComponent* Component, const int
 
 void AScales::HandleRoundFinished(URoundControllerComponent* Component, const int32 RoundIdx)
 {
+	if (FMath::Abs(WeightBalance) >= FailureBalanceThreshold)
+	{
+		FailuresCounterComponent->IncreaseFailureCount();
+	}
+
 	LeftBowl->RemoveAllEntities();
 	RightBowl->RemoveAllEntities();
-	RoundControllerComponent->StartRound();
+
+	if (FailuresCounterComponent->CanFail())
+	{
+		RoundControllerComponent->StartRound();
+	}
+}
+
+void AScales::HandleFailureThresholdReached(UFailuresCounterComponent* Component)
+{
+	UJamUtils::GetCoreGameMode(this)->FinishSession(false);
 }

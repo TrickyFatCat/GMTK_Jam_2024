@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Scales.generated.h"
 
+class UFailuresCounterComponent;
 class URoundControllerComponent;
 class UEntitySpawnerComponent;
 class UWeightComponent;
@@ -36,13 +37,19 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	URoundControllerComponent* GetRoundControllerComponent() const { return RoundControllerComponent; }
+
+	UFUNCTION(BlueprintGetter)
+	UFailuresCounterComponent* GetFailuresCounterComponent() const { return FailuresCounterComponent; }
 	
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UEntitySpawnerComponent> EntitySpawnerComponent;
+	TObjectPtr<UEntitySpawnerComponent> EntitySpawnerComponent = nullptr;
 	
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<URoundControllerComponent> RoundControllerComponent;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetRoundControllerComponent)
+	TObjectPtr<URoundControllerComponent> RoundControllerComponent = nullptr;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetFailuresCounterComponent)
+	TObjectPtr<UFailuresCounterComponent> FailuresCounterComponent = nullptr;
 	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* LeftBowl = nullptr;
@@ -50,8 +57,11 @@ protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* RightBowl = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(ClampMin="0.0", ClampMax="1.0"))
+	float FailureBalanceThreshold = 0.5;
+
 	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetWeightBalance)
-	float WeightBalance = 0.0f;
+	float WeightBalance = 0.f;
 
 	UFUNCTION(BlueprintCallable)
 	bool AddTargetEntity(AEntity* Entity);
@@ -77,4 +87,7 @@ private:
 	
 	UFUNCTION()
 	void HandleRoundFinished(URoundControllerComponent* Component, const int32 RoundIdx);
+
+	UFUNCTION()
+	void HandleFailureThresholdReached(UFailuresCounterComponent* Component);
 };
