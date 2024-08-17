@@ -24,17 +24,17 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	bool AddEntity(AEntity* Entity) const;
+	bool AddEntity(AEntity* Entity);
 	
 	UFUNCTION(BlueprintCallable)
-	bool RemoveEntity(AEntity* Entity) const;
+	bool RemoveEntity(AEntity* Entity);
 
 	UFUNCTION(BlueprintGetter)
 	float GetWeightBalance() const { return WeightBalance; }
 	
 protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
-	ABowl* LeftScaleBowl = nullptr;
+	ABowl* LeftBowl = nullptr;
 	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* RightBowl = nullptr;

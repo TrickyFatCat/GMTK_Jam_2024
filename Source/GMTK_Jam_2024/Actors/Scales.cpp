@@ -7,6 +7,8 @@
 #include "Bowl.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
+#include "GMTK_Jam_2024/Core/JamCoreGameMode.h"
+#include "GMTK_Jam_2024/Core/JamUtils.h"
 
 
 AScales::AScales()
@@ -23,9 +25,16 @@ void AScales::BeginPlay()
 		RightBowl->GetWeightComponent()->OnWeightAdded.AddUniqueDynamic(this, &AScales::HandleWeightAdded);
 		RightBowl->GetWeightComponent()->OnWeightRemoved.AddUniqueDynamic(this, &AScales::HandleWeightRemoved);
 	}
+
+	AJamCoreGameMode* GameMode = UJamUtils::GetCoreGameMode(this);
+
+	if (IsValid(GameMode))
+	{
+		GameMode->RegisterScales(this);
+	}
 }
 
-bool AScales::AddEntity(AEntity* Entity) const
+bool AScales::AddEntity(AEntity* Entity) 
 {
 	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
@@ -35,7 +44,7 @@ bool AScales::AddEntity(AEntity* Entity) const
 	return RightBowl->AddEntity(Entity);
 }
 
-bool AScales::RemoveEntity(AEntity* Entity) const
+bool AScales::RemoveEntity(AEntity* Entity) 
 {
 	if (!IsValid(Entity) || !IsValid(RightBowl))
 	{
@@ -47,13 +56,13 @@ bool AScales::RemoveEntity(AEntity* Entity) const
 
 void AScales::CalculateBalance()
 {
-	if (!IsValid(RightBowl) || !IsValid(LeftScaleBowl))
+	if (!IsValid(RightBowl) || !IsValid(LeftBowl))
 	{
 		return;
 	}
 	
 	const float RightBowlWeight = static_cast<float>(RightBowl->GetWeight());
-	const float LeftBowlWeight = static_cast<float>(LeftScaleBowl->GetWeight());
+	const float LeftBowlWeight = static_cast<float>(LeftBowl->GetWeight());
 	WeightBalance = RightBowlWeight / LeftBowlWeight - 1.f;
 }
 
