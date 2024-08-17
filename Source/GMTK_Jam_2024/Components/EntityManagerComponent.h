@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool RemoveEntity(AEntity* Entity);
 
+	UFUNCTION(BlueprintCallable)
+	void RemoveAllEntities();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int32 MaxEntitiesNum = 1;

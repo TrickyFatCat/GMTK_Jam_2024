@@ -37,5 +37,21 @@ bool UEntityManagerComponent::RemoveEntity(AEntity* Entity)
 
 	AddedEntities.RemoveSingle(Entity);
 	OnEntityRemoved.Broadcast(this, Entity);
+	Entity->Destroy();
 	return true;
+}
+
+void UEntityManagerComponent::RemoveAllEntities()
+{
+	if (AddedEntities.IsEmpty())
+	{
+		return;
+	}
+
+	const TArray<AEntity*> Entities = AddedEntities;
+	
+	for (AEntity* Entity : Entities)
+	{
+		RemoveEntity(Entity);
+	}
 }
