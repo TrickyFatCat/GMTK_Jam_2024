@@ -31,7 +31,7 @@ public:
 	UFUNCTION(BlueprintPure)
 	int32 GetWeight() const;
 
-	UFUNCTION(BluerintGetter)
+	UFUNCTION(BlueprintGetter)
 	TObjectPtr<UWeightComponent> GetWeightComponent() const { return WeightComponent; }
 
 	UFUNCTION(BlueprintGetter)
