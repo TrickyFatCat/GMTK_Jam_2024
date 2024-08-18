@@ -37,6 +37,16 @@ AConveyor::AConveyor()
 	EntityManagerComponent = CreateDefaultSubobject<UEntityManagerComponent>("EntityManagerComponent");
 }
 
+void AConveyor::OnConstruction(const FTransform& Transform)
+{
+	TArray<FTransform> SectionsTransforms;
+	UJamUtils::CalculateSectionTransforms(SectionsNum, SectionOffset, SectionRotation, SectionsTransforms);
+	MiddleMesh->ClearInstances();
+	MiddleMesh->AddInstances(SectionsTransforms, false);
+	EndMesh->SetRelativeTransform(SectionsTransforms.Last());
+	Super::OnConstruction(Transform);
+}
+
 void AConveyor::BeginPlay()
 {
 	AJamCoreGameMode* GameMode = UJamUtils::GetCoreGameMode(this);
@@ -118,6 +128,7 @@ void AConveyor::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* E
 {
 	Entity->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	Entity->GetEntityStateControllerComponent()->OnStateChanged.AddUniqueDynamic(this, &AConveyor::HandleEntityStateChanged);
+	Entity->SetLifeSpan((SectionOffset * SectionsNum) / ConveyorSpeed);
 }
 
 void AConveyor::HandleEntityRemoved(UEntityManagerComponent* Component, AEntity* Entity)

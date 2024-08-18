@@ -24,6 +24,8 @@ public:
 	AConveyor();
 
 protected:
+	virtual void OnConstruction(const FTransform& Transform) override;
+	
 	virtual void BeginPlay() override;
 
 public:
@@ -59,6 +61,15 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float ConveyorSpeed = 400.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 SectionsNum = 9;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float SectionOffset = 400.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FRotator SectionRotation = FRotator(0, -90, 0);
 
 private:
 	UFUNCTION()
