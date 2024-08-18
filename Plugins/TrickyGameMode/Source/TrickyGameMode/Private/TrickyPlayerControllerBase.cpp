@@ -40,7 +40,7 @@ void ATrickyPlayerControllerBase::HandleGameStateChange_Implementation(EGameMode
 	switch (NewState)
 	{
 	case EGameModeState::InProgress:
-		ToggleInput(true, bShowCursorOnStart, FInputModeGameOnly());
+		ToggleInput(true, bShowCursorOnStart, FInputModeGameAndUI());
 		break;
 
 	case EGameModeState::Lose:
