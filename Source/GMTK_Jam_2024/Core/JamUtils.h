@@ -25,4 +25,10 @@ public:
 
 	UFUNCTION(BlueprintPure, meta=(WorldContext = "WorldContextObj", DefaultToSelf))
 	static URoundControllerComponent* GetRoundControllerComponent(const UObject* WorldContextObj);
+
+	UFUNCTION(BlueprintCallable, meta=(AutoCreateRefTerm="Rotation"))
+	static void CalculateSectionTransforms(const int32 SectionsNum,
+	                                       const float Offset,
+	                                       UPARAM(ref) const FRotator& Rotation,
+	                                       TArray<FTransform>& Transforms);
 };

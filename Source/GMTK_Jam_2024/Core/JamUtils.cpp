@@ -40,3 +40,24 @@ URoundControllerComponent* UJamUtils::GetRoundControllerComponent(const UObject*
 
 	return RegisteredScales->GetRoundControllerComponent();
 }
+
+void UJamUtils::CalculateSectionTransforms(const int32 SectionsNum,
+                                           const float Offset,
+                                           const FRotator& Rotation,
+                                           TArray<FTransform>& Transforms)
+{
+	if (SectionsNum <= 0)
+	{
+		return;
+	}
+
+	FTransform NewTransform = FTransform::Identity;
+
+	for (int32 i = 0; i < SectionsNum; i++)
+	{
+		FVector Location = FVector::ForwardVector * Offset * i;
+		NewTransform.SetLocation(Location);
+		NewTransform.SetRotation(Rotation.Quaternion());
+		Transforms.Add(NewTransform);
+	}
+}
