@@ -76,6 +76,28 @@ void AEntity::SetLevel(const int32 NewLevel)
 	{
 		WeightComponent->SetCurrentWeight(WeightCurve->GetFloatValue(NewLevel));
 	}
+
+	if (EntityParams.IsEmpty())
+	{
+		return;
+	}
+	int32 Index = EntityParams.IsValidIndex(NewLevel - 1) ? NewLevel - 1 : 0;
+	TArray<UStaticMesh*> Meshes = EntityParams[Index].StaticMeshes;
+
+	if (Meshes.IsEmpty())
+	{
+		return;
+	}
+
+	Index = FMath::RandRange(0, Meshes.Num() -1);
+	UStaticMesh* NewMesh = Meshes[Index];
+	
+	if (!IsValid(NewMesh))
+	{
+		return;
+	}
+
+	StaticMeshComponent->SetStaticMesh(NewMesh);
 }
 
 void AEntity::HandleMouseClick(AActor* TouchedActor, FKey ButtonPressed)
@@ -100,7 +122,7 @@ void AEntity::HandleStateChanged(UEntityStateControllerComponent* Component, con
 	{
 	case EEntityState::Active:
 		SetLifeSpan(0.f);
-		
+
 		if (IsValid(GameMode))
 		{
 			AScales* Scales = GameMode->GetScales();

@@ -12,6 +12,15 @@ class UWeightComponent;
 class UBoxComponent;
 class UStaticMeshComponent;
 
+USTRUCT(Blueprintable)
+struct FEntityParams
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<UStaticMesh*> StaticMeshes;
+};
+
 UCLASS()
 class GMTK_JAM_2024_API AEntity : public AActor
 {
@@ -66,6 +75,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetWeightCurve)
 	UCurveFloat* WeightCurve = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FEntityParams> EntityParams;
 
 private:
 	UFUNCTION()
