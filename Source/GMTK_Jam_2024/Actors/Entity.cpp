@@ -82,11 +82,12 @@ void AEntity::HandleMouseClick(AActor* TouchedActor, FKey ButtonPressed)
 void AEntity::HandleStateChanged(UEntityStateControllerComponent* Component, const EEntityState NewState)
 {
 	AJamCoreGameMode* GameMode = UJamUtils::GetCoreGameMode(this);
-	
+
 	switch (NewState)
 	{
 	case EEntityState::Active:
-
+		SetLifeSpan(0.f);
+		
 		if (IsValid(GameMode))
 		{
 			AScales* Scales = GameMode->GetScales();
