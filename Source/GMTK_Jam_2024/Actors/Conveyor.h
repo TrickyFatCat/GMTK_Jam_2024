@@ -89,4 +89,7 @@ private:
 	
 	UFUNCTION()
 	void HandleEntityRemoved(UEntityManagerComponent* Component, AEntity* Entity);
+
+	UFUNCTION()
+	void HandleEntityDestroyed(AActor* Entity);
 };

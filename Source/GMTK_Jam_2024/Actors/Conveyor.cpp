@@ -129,9 +129,16 @@ void AConveyor::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* E
 	Entity->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	Entity->GetEntityStateControllerComponent()->OnStateChanged.AddUniqueDynamic(this, &AConveyor::HandleEntityStateChanged);
 	Entity->SetLifeSpan((SectionOffset * SectionsNum) / ConveyorSpeed);
+	Entity->OnDestroyed.AddUniqueDynamic(this, &AConveyor::AConveyor::HandleEntityDestroyed);
 }
 
 void AConveyor::HandleEntityRemoved(UEntityManagerComponent* Component, AEntity* Entity)
 {
 	Entity->GetEntityStateControllerComponent()->OnStateChanged.RemoveDynamic(this, &AConveyor::HandleEntityStateChanged);
+	Entity->OnDestroyed.RemoveDynamic(this, &AConveyor::HandleEntityDestroyed);
+}
+
+void AConveyor::HandleEntityDestroyed(AActor* Entity)
+{
+	EntityManagerComponent->RemoveEntity(Cast<AEntity>(Entity));
 }
