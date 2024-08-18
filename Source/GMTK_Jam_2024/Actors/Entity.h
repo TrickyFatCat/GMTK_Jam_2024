@@ -39,6 +39,12 @@ public:
 	UFUNCTION(BlueprintGetter)
 	UEntityStateControllerComponent* GetEntityStateControllerComponent() const { return EntityStateControllerComponent; }
 
+	UFUNCTION(BlueprintCallable)
+	void SetLevel(const int32 NewLevel);
+
+	UFUNCTION(BlueprintGetter)
+	UCurveFloat* GetWeightCurve() const { return WeightCurve; }
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<USceneComponent> Root = nullptr;
@@ -57,6 +63,9 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetEntityStateControllerComponent)
 	TObjectPtr<UEntityStateControllerComponent> EntityStateControllerComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetWeightCurve)
+	UCurveFloat* WeightCurve = nullptr;
 
 private:
 	UFUNCTION()

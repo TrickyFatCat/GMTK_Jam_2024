@@ -28,5 +28,5 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSet<TSubclassOf<AEntity>> EntityClasses;
+	TSubclassOf<AEntity> EntityClass = nullptr;
 };

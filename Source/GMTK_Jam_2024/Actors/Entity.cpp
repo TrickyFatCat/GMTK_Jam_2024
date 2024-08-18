@@ -65,6 +65,19 @@ void AEntity::DisableEntity()
 	EntityStateControllerComponent->DisableEntity();
 }
 
+void AEntity::SetLevel(const int32 NewLevel)
+{
+	if (NewLevel < 0)
+	{
+		return;
+	}
+
+	if (IsValid(WeightCurve))
+	{
+		WeightComponent->SetCurrentWeight(WeightCurve->GetFloatValue(NewLevel));
+	}
+}
+
 void AEntity::HandleMouseClick(AActor* TouchedActor, FKey ButtonPressed)
 {
 	switch (EntityStateControllerComponent->GetCurrentState())

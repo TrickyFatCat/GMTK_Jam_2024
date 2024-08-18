@@ -37,3 +37,13 @@ void UWeightComponent::RemoveWeight(const int32 DeltaWeight)
 	CurrentWeight = FMath::Max(CurrentWeight, 0);
 	OnWeightRemoved.Broadcast(this, CurrentWeight, DeltaWeight);
 }
+
+void UWeightComponent::SetCurrentWeight(const int32 NewWeight)
+{
+	if (CurrentWeight <= 0)
+	{
+		return;
+	}
+
+	CurrentWeight = NewWeight;
+}

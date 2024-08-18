@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RemoveWeight(const int32 DeltaWeight);
 
+	UFUNCTION()
+	void SetCurrentWeight(const int32 NewWeight);
+	
 	UFUNCTION(BlueprintGetter)
 	int32 GetCurrentWeight() const { return CurrentWeight; }
 

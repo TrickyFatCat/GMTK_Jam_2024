@@ -4,7 +4,6 @@
 #include "EntitySpawnerComponent.h"
 
 #include "GMTK_Jam_2024/Actors/Entity.h"
-#include "Kismet/KismetMathLibrary.h"
 
 
 UEntitySpawnerComponent::UEntitySpawnerComponent()
@@ -14,13 +13,6 @@ UEntitySpawnerComponent::UEntitySpawnerComponent()
 
 AEntity* UEntitySpawnerComponent::SpawnEntity(const FTransform& SpawnTransform)
 {
-	if (EntityClasses.IsEmpty())
-	{
-		return nullptr;
-	}
-
-	const TSubclassOf<AEntity> EntityClass = EntityClasses.Array()[UKismetMathLibrary::RandomInteger(EntityClasses.Num() - 1)];
-
 	if (!IsValid(EntityClass))
 	{
 		return nullptr;
@@ -28,6 +20,17 @@ AEntity* UEntitySpawnerComponent::SpawnEntity(const FTransform& SpawnTransform)
 
 	AEntity* NewEntity = GetWorld()->SpawnActorDeferred<AEntity>(EntityClass, SpawnTransform);
 	NewEntity->SetOwner(GetOwner());
+	const UCurveFloat* WeightCurve = NewEntity->GetWeightCurve();
+
+	if (IsValid(WeightCurve))
+	{
+		float MinTime = 0.0;
+		float MaxLevel = 1.0;
+		WeightCurve->GetTimeRange(MinTime, MaxLevel);
+		const int32 NewLevel = FMath::RandRange(0, static_cast<int32>(MaxLevel));
+		NewEntity->SetLevel(NewLevel);
+	}
+
 	NewEntity->FinishSpawning(SpawnTransform);
 	OnEntitySpawned.Broadcast(this, NewEntity);
 	return NewEntity;
