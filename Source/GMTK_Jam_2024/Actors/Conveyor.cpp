@@ -59,6 +59,21 @@ void AConveyor::BeginPlay()
 	Super::BeginPlay();
 }
 
+void AConveyor::Tick(float DeltaSeconds)
+{
+
+	TArray<AActor*> AttachedActors;
+	GetAttachedActors(AttachedActors);
+	
+	if (!AttachedActors.IsEmpty())
+	{
+		for (const auto AttachedActor : AttachedActors)
+		{
+			AttachedActor->AddActorWorldOffset(GetActorForwardVector() * ConveyorSpeed * DeltaSeconds);
+		}
+	}
+}
+
 void AConveyor::HandleGameStateChanged(EGameModeState NewState)
 {
 	FTimerManager& TimerManager = GetWorldTimerManager();
@@ -78,7 +93,10 @@ void AConveyor::HandleGameStateChanged(EGameModeState NewState)
 
 void AConveyor::SpawnEntity()
 {
-	EntitySpawnerComponent->SpawnEntity(GetActorTransform());
+	FTransform SpawnTransform = GetActorTransform();
+	FVector SpawnLocation = SpawnTransform.GetLocation() + SpawnOffset;
+	SpawnTransform.SetLocation(SpawnLocation);
+	EntitySpawnerComponent->SpawnEntity(SpawnTransform);
 }
 
 void AConveyor::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity)
@@ -98,7 +116,7 @@ void AConveyor::HandleEntityStateChanged(UEntityStateControllerComponent* Compon
 
 void AConveyor::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Entity)
 {
-	Entity->AttachToActor(this, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	Entity->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	Entity->GetEntityStateControllerComponent()->OnStateChanged.AddUniqueDynamic(this, &AConveyor::HandleEntityStateChanged);
 }
 

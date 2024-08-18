@@ -26,6 +26,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+public:
+	virtual void Tick(float DeltaSeconds) override;
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<USceneComponent> Root = nullptr;
@@ -45,11 +48,17 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UEntityManagerComponent> EntityManagerComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	FVector SpawnOffset = FVector::Zero();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float SpawnDelay = 1.0f;
 
 	UPROPERTY(BlueprintReadOnly)
 	FTimerHandle SpawnTimer;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float ConveyorSpeed = 400.0f;
 
 private:
 	UFUNCTION()
