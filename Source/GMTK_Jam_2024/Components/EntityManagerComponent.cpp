@@ -45,7 +45,7 @@ bool UEntityManagerComponent::RemoveEntity(AEntity* Entity, const bool bDestroy)
 	return true;
 }
 
-void UEntityManagerComponent::RemoveAllEntities()
+void UEntityManagerComponent::RemoveAllEntities(const bool bDestroy)
 {
 	if (AddedEntities.IsEmpty())
 	{
@@ -56,6 +56,6 @@ void UEntityManagerComponent::RemoveAllEntities()
 
 	for (AEntity* Entity : Entities)
 	{
-		RemoveEntity(Entity);
+		RemoveEntity(Entity, bDestroy);
 	}
 }

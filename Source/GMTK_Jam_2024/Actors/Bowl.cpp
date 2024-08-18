@@ -46,7 +46,7 @@ bool ABowl::RemoveEntity(AEntity* Entity) const
 
 void ABowl::RemoveAllEntities()
 {
-	EntityManagerComponent->RemoveAllEntities();
+	EntityManagerComponent->RemoveAllEntities(true);
 }
 
 int32 ABowl::GetWeight() const

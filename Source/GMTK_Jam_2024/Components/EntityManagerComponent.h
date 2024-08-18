@@ -42,12 +42,15 @@ public:
 	bool RemoveEntity(AEntity* Entity, const bool bDestroy = false);
 
 	UFUNCTION(BlueprintCallable)
-	void RemoveAllEntities();
+	void RemoveAllEntities(const bool bDestroy = false);
+
+	UFUNCTION(BlueprintGetter)
+	TArray<AEntity*> GetAddedEntities() const { return AddedEntities; }
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int32 MaxEntitiesNum = 1;
 	
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetAddedEntities)
 	TArray<AEntity*> AddedEntities;
 };
