@@ -6,9 +6,11 @@
 #include "Entity.h"
 #include "TrickyGameModeBase.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
+#include "Curves/CurveVector.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
 #include "GMTK_Jam_2024/Components/EntityStateControllerComponent.h"
+#include "GMTK_Jam_2024/Components/RoundControllerComponent.h"
 #include "GMTK_Jam_2024/Core/JamCoreGameMode.h"
 #include "GMTK_Jam_2024/Core/JamUtils.h"
 
@@ -66,12 +68,19 @@ void AConveyor::BeginPlay()
 		EntityManagerComponent->OnEntityAdded.AddUniqueDynamic(this, &AConveyor::HandleEntityAdded);
 		EntityManagerComponent->OnEntityRemoved.AddUniqueDynamic(this, &AConveyor::HandleEntityRemoved);
 	}
+
+	URoundControllerComponent* RoundControllerComponent = UJamUtils::GetRoundControllerComponent(this);
+
+	if (IsValid(RoundControllerComponent))
+	{
+		RoundControllerComponent->OnRoundStarted.AddUniqueDynamic(this, &AConveyor::HandleRoundStarted);
+	}
+	
 	Super::BeginPlay();
 }
 
 void AConveyor::Tick(float DeltaSeconds)
 {
-
 	TArray<AActor*> AttachedActors;
 	GetAttachedActors(AttachedActors);
 	
@@ -82,6 +91,8 @@ void AConveyor::Tick(float DeltaSeconds)
 			AttachedActor->AddActorWorldOffset(GetActorForwardVector() * ConveyorSpeed * DeltaSeconds);
 		}
 	}
+	
+	Super::Tick(DeltaSeconds);
 }
 
 void AConveyor::HandleGameStateChanged(EGameModeState NewState)
@@ -90,9 +101,10 @@ void AConveyor::HandleGameStateChanged(EGameModeState NewState)
 	
 	switch (NewState)
 	{
+	case EGameModeState::Pause:
 	case EGameModeState::InProgress:
 		SpawnEntity();
-		TimerManager.SetTimer(SpawnTimer, this, &AConveyor::SpawnEntity, SpawnDelay, true);
+		TimerManager.SetTimer(SpawnTimer, this, &AConveyor::SpawnEntity, SpawnDelay, false);
 		break;
 
 	default:
@@ -107,6 +119,7 @@ void AConveyor::SpawnEntity()
 	FVector SpawnLocation = SpawnTransform.GetLocation() + SpawnOffset;
 	SpawnTransform.SetLocation(SpawnLocation);
 	EntitySpawnerComponent->SpawnEntity(SpawnTransform);
+	GetWorldTimerManager().SetTimer(SpawnTimer, this, &AConveyor::SpawnEntity, SpawnDelay, false);
 }
 
 void AConveyor::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity)
@@ -141,4 +154,16 @@ void AConveyor::HandleEntityRemoved(UEntityManagerComponent* Component, AEntity*
 void AConveyor::HandleEntityDestroyed(AActor* Entity)
 {
 	EntityManagerComponent->RemoveEntity(Cast<AEntity>(Entity));
+}
+
+void AConveyor::HandleRoundStarted(URoundControllerComponent* Component, int32 NewRound)
+{
+	if (!BalanceCurve)
+	{
+		return;
+	}
+
+	const FVector BalanceData = BalanceCurve->GetVectorValue(NewRound);
+	ConveyorSpeed = BalanceData.X;
+	SpawnDelay = BalanceData.Y;
 }

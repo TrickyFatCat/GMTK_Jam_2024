@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Conveyor.generated.h"
 
+class URoundControllerComponent;
+class UCurveVector;
 enum class EEntityState : uint8;
 class UEntityStateControllerComponent;
 enum class EGameModeState : uint8;
@@ -54,6 +56,9 @@ protected:
 	FVector SpawnOffset = FVector::Zero();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UCurveVector* BalanceCurve = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float SpawnDelay = 1.0f;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -92,4 +97,8 @@ private:
 
 	UFUNCTION()
 	void HandleEntityDestroyed(AActor* Entity);
+
+	UFUNCTION()
+	void HandleRoundStarted(URoundControllerComponent* Component, const int32 RoundIdx);
 };
+
