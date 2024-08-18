@@ -153,7 +153,6 @@ void AScales::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Ent
 	}
 
 	Entity->OnDestroyed.AddDynamic(this, &AScales::HandleEntityDestroyed);
-	Entity->AttachToActor(RightBowl, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 }
 
 void AScales::HandleEntitySpawn(UEntitySpawnerComponent* Component, AEntity* NewEntity)

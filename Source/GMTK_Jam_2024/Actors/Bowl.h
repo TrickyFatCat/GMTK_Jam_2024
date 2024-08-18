@@ -19,6 +19,8 @@ public:
 	ABowl();
 
 protected:
+	virtual void OnConstruction(const FTransform& Transform) override;
+	
 	virtual void BeginPlay() override;
 
 public:
@@ -52,6 +54,18 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetEntityManagerComponent)
 	TObjectPtr<UEntityManagerComponent> EntityManagerComponent = nullptr;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	TArray<FVector> EntityOffsets;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	int32 SizeX = 1;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	int32 SizeY = 1;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+	FVector2D SectorSize = FVector2D(200.f, 200.f);
 
 private:
 	UFUNCTION()

@@ -47,8 +47,14 @@ public:
 	UFUNCTION(BlueprintGetter)
 	TArray<AEntity*> GetAddedEntities() const { return AddedEntities; }
 
+	UFUNCTION(BlueprintPure)
+	int32 GetAddedEntitiesNum() const { return AddedEntities.Num(); }
+
+	UFUNCTION(BlueprintGetter)
+	int32 GetMaxEntitiesNum() const { return MaxEntitiesNum; }
+
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintGetter=GetMaxEntitiesNum)
 	int32 MaxEntitiesNum = 1;
 	
 	UPROPERTY(VisibleInstanceOnly, BlueprintGetter=GetAddedEntities)
