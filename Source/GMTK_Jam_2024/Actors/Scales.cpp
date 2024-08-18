@@ -9,6 +9,7 @@
 #include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
 #include "GMTK_Jam_2024/Components/FailuresCounterComponent.h"
 #include "GMTK_Jam_2024/Components/RoundControllerComponent.h"
+#include "GMTK_Jam_2024/Components/ScoreManagerComponent.h"
 #include "GMTK_Jam_2024/Components/WeightComponent.h"
 #include "GMTK_Jam_2024/Core/JamCoreGameMode.h"
 #include "GMTK_Jam_2024/Core/JamUtils.h"
@@ -21,6 +22,7 @@ AScales::AScales()
 	EntitySpawnerComponent = CreateDefaultSubobject<UEntitySpawnerComponent>("EntitySpawner");
 	RoundControllerComponent = CreateDefaultSubobject<URoundControllerComponent>("RoundController");
 	FailuresCounterComponent = CreateDefaultSubobject<UFailuresCounterComponent>("FailuresCounter");
+	ScoreManagerComponent = CreateDefaultSubobject<UScoreManagerComponent>("ScoreManager");
 }
 
 void AScales::BeginPlay()
@@ -61,6 +63,17 @@ void AScales::BeginPlay()
 	{
 		GameMode->RegisterScales(this);
 		GameMode->OnStateChanged.AddUniqueDynamic(this, &AScales::AScales::HandleGameStateChanged);
+	}
+
+	if (IsValid(ScoreManagerComponent))
+	{
+		UCurveFloat* ScoreCurve = ScoreManagerComponent->GetScoreCurve();
+
+		if (ScoreCurve)
+		{
+			float MinTime = 0.f;
+			ScoreCurve->GetTimeRange(MinTime, FailureBalanceThreshold);
+		}
 	}
 
 	Super::BeginPlay();
@@ -157,6 +170,8 @@ void AScales::HandleRoundStarted(URoundControllerComponent* Component, const int
 
 void AScales::HandleRoundFinished(URoundControllerComponent* Component, const int32 RoundIdx)
 {
+	ScoreManagerComponent->CalculateScore(WeightBalance);
+	
 	if (FMath::Abs(WeightBalance) >= FailureBalanceThreshold)
 	{
 		FailuresCounterComponent->IncreaseFailureCount();

@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Scales.generated.h"
 
+class UScoreManagerComponent;
 class UFailuresCounterComponent;
 class URoundControllerComponent;
 class UEntitySpawnerComponent;
@@ -41,6 +42,9 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	UFailuresCounterComponent* GetFailuresCounterComponent() const { return FailuresCounterComponent; }
+
+	UFUNCTION(BlueprintGetter)
+	UScoreManagerComponent* GetScoreManagerComponent() const { return ScoreManagerComponent; }
 	
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
@@ -51,6 +55,9 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetFailuresCounterComponent)
 	TObjectPtr<UFailuresCounterComponent> FailuresCounterComponent = nullptr;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetScoreManagerComponent)
+	TObjectPtr<UScoreManagerComponent> ScoreManagerComponent = nullptr;
 	
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* LeftBowl = nullptr;
