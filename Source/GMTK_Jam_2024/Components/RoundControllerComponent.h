@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "RoundControllerComponent.generated.h"
 
+class UCurveVector;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnRoundStartedDynamicSignature,
                                              URoundControllerComponent*, Component,
                                              const int32, RoundIdx);
@@ -42,6 +43,9 @@ public:
 	FTimerHandle GetRoundTimer() const { return RoundTimer; }
 
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UCurveVector* BalanceCurve = nullptr;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float RoundDuration = 10.0f;
 

@@ -3,6 +3,8 @@
 
 #include "RoundControllerComponent.h"
 
+#include "Curves/CurveVector.h"
+
 
 URoundControllerComponent::URoundControllerComponent()
 {
@@ -24,6 +26,13 @@ void URoundControllerComponent::StartRound()
 	}
 
 	RoundIndex += 1;
+
+	if (IsValid(BalanceCurve))
+	{
+		const FVector BalanceData = BalanceCurve->GetVectorValue(RoundIndex);
+		RoundDuration = BalanceData.Z;
+	}
+	
 	TimerManager.SetTimer(RoundTimer, this, &URoundControllerComponent::FinishRound, RoundDuration, false);
 	OnRoundStarted.Broadcast(this, RoundIndex);
 }
