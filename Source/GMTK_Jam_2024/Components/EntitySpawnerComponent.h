@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "EntitySpawnerComponent.generated.h"
 
+class UCurveVector;
 class AEntity;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEntitySpawnedDynamicSignatre,
@@ -29,4 +30,7 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<AEntity> EntityClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UCurveVector* LevelCurve = nullptr;
 };
