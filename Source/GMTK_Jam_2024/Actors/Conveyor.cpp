@@ -7,6 +7,7 @@
 #include "TrickyGameModeBase.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Curves/CurveVector.h"
+#include "EntitySystem/MovieSceneEntitySystemRunner.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
 #include "GMTK_Jam_2024/Components/EntityStateControllerComponent.h"
@@ -75,7 +76,7 @@ void AConveyor::BeginPlay()
 	{
 		RoundControllerComponent->OnRoundStarted.AddUniqueDynamic(this, &AConveyor::HandleRoundStarted);
 	}
-	
+
 	Super::BeginPlay();
 }
 
@@ -83,7 +84,7 @@ void AConveyor::Tick(float DeltaSeconds)
 {
 	TArray<AActor*> AttachedActors;
 	GetAttachedActors(AttachedActors);
-	
+
 	if (!AttachedActors.IsEmpty())
 	{
 		for (const auto AttachedActor : AttachedActors)
@@ -91,20 +92,32 @@ void AConveyor::Tick(float DeltaSeconds)
 			AttachedActor->AddActorWorldOffset(GetActorForwardVector() * ConveyorSpeed * DeltaSeconds);
 		}
 	}
-	
+
 	Super::Tick(DeltaSeconds);
 }
 
 void AConveyor::HandleGameStateChanged(EGameModeState NewState)
 {
 	FTimerManager& TimerManager = GetWorldTimerManager();
-	
+
 	switch (NewState)
 	{
 	case EGameModeState::Pause:
+		if (TimerManager.IsTimerActive(SpawnTimer))
+		{
+			TimerManager.PauseTimer(SpawnTimer);
+		}
+		break;
 	case EGameModeState::InProgress:
-		SpawnEntity();
-		TimerManager.SetTimer(SpawnTimer, this, &AConveyor::SpawnEntity, SpawnDelay, false);
+		if (TimerManager.IsTimerPaused(SpawnTimer))
+		{
+			TimerManager.UnPauseTimer(SpawnTimer);
+		}
+		else
+		{
+			SpawnEntity();
+			TimerManager.SetTimer(SpawnTimer, this, &AConveyor::SpawnEntity, SpawnDelay, false);
+		}
 		break;
 
 	default:
@@ -140,14 +153,16 @@ void AConveyor::HandleEntityStateChanged(UEntityStateControllerComponent* Compon
 void AConveyor::HandleEntityAdded(UEntityManagerComponent* Component, AEntity* Entity)
 {
 	Entity->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
-	Entity->GetEntityStateControllerComponent()->OnStateChanged.AddUniqueDynamic(this, &AConveyor::HandleEntityStateChanged);
+	Entity->GetEntityStateControllerComponent()->OnStateChanged.AddUniqueDynamic(
+		this, &AConveyor::HandleEntityStateChanged);
 	Entity->SetLifeSpan((SectionOffset * SectionsNum) / ConveyorSpeed);
 	Entity->OnDestroyed.AddUniqueDynamic(this, &AConveyor::AConveyor::HandleEntityDestroyed);
 }
 
 void AConveyor::HandleEntityRemoved(UEntityManagerComponent* Component, AEntity* Entity)
 {
-	Entity->GetEntityStateControllerComponent()->OnStateChanged.RemoveDynamic(this, &AConveyor::HandleEntityStateChanged);
+	Entity->GetEntityStateControllerComponent()->OnStateChanged.RemoveDynamic(
+		this, &AConveyor::HandleEntityStateChanged);
 	Entity->OnDestroyed.RemoveDynamic(this, &AConveyor::HandleEntityDestroyed);
 }
 
