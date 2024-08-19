@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Conveyor.generated.h"
 
+class AScales;
 class URoundControllerComponent;
 class UCurveVector;
 enum class EEntityState : uint8;
@@ -51,6 +52,9 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UEntityManagerComponent> EntityManagerComponent = nullptr;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+	AScales* Scales = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector SpawnOffset = FVector::Zero();
