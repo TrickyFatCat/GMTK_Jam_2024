@@ -119,6 +119,7 @@ void AScales::CalculateBalance()
 	const float RightBowlWeight = static_cast<float>(RightBowl->GetWeight());
 	const float LeftBowlWeight = static_cast<float>(LeftBowl->GetWeight());
 	WeightBalance = LeftBowlWeight <= 0.f ? 0.f : RightBowlWeight / LeftBowlWeight - 1.f;
+	OnBalanceCalculated(WeightBalance);
 }
 
 void AScales::HandleGameStateChanged(EGameModeState NewState)

@@ -30,7 +30,7 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable)
 	bool AddEntity(AEntity* Entity);
-	
+
 	UFUNCTION(BlueprintCallable)
 	bool RemoveEntity(AEntity* Entity);
 
@@ -45,11 +45,11 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	UScoreManagerComponent* GetScoreManagerComponent() const { return ScoreManagerComponent; }
-	
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UEntitySpawnerComponent> EntitySpawnerComponent = nullptr;
-	
+
 	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetRoundControllerComponent)
 	TObjectPtr<URoundControllerComponent> RoundControllerComponent = nullptr;
 
@@ -58,10 +58,10 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintGetter=GetScoreManagerComponent)
 	TObjectPtr<UScoreManagerComponent> ScoreManagerComponent = nullptr;
-	
+
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* LeftBowl = nullptr;
-	
+
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
 	ABowl* RightBowl = nullptr;
 
@@ -73,14 +73,17 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	bool AddTargetEntity(AEntity* Entity);
-	
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnBalanceCalculated(const float NewBalance);
+
 private:
 	UFUNCTION()
 	void CalculateBalance();
 
 	UFUNCTION()
 	void HandleGameStateChanged(EGameModeState NewState);
-	
+
 	UFUNCTION()
 	void HandleWeightAdded(UWeightComponent* WeightComponent, const int32 NewWeight, const int32 DeltaWeight);
 
@@ -95,7 +98,7 @@ private:
 
 	UFUNCTION()
 	void HandleRoundStarted(URoundControllerComponent* Component, const int32 RoundIdx);
-	
+
 	UFUNCTION()
 	void HandleRoundFinished(URoundControllerComponent* Component, const int32 RoundIdx);
 
