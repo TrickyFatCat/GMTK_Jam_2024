@@ -43,7 +43,6 @@ AEntity* UEntitySpawnerComponent::SpawnEntity(const FTransform& SpawnTransform)
 		WeightCurve->GetTimeRange(MinTime, ActualMaxLevel);
 		LevelData.X = FMath::Min(LevelData.X, ActualMaxLevel);
 		LevelData.Y = FMath::Min(LevelData.Y, ActualMaxLevel);
-		UE_LOG(LogTemp, Warning, TEXT("Round: %d | MinLevel: %f | MaxLevel: %f"), CurrentRound, LevelData.X, LevelData.Y);
 		NewLevel = FMath::RandRange(static_cast<int32>(LevelData.X), static_cast<int32>(LevelData.Y));
 	}
 	
