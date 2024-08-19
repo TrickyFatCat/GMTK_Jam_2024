@@ -4,6 +4,7 @@
 #include "Conveyor.h"
 
 #include "Entity.h"
+#include "Scales.h"
 #include "TrickyGameModeBase.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Curves/CurveVector.h"
@@ -70,11 +71,14 @@ void AConveyor::BeginPlay()
 		EntityManagerComponent->OnEntityRemoved.AddUniqueDynamic(this, &AConveyor::HandleEntityRemoved);
 	}
 
-	URoundControllerComponent* RoundControllerComponent = UJamUtils::GetRoundControllerComponent(this);
-
-	if (IsValid(RoundControllerComponent))
+	if (IsValid(Scales))
 	{
-		RoundControllerComponent->OnRoundStarted.AddUniqueDynamic(this, &AConveyor::HandleRoundStarted);
+		URoundControllerComponent* RoundControllerComponent = Scales->GetRoundControllerComponent();
+
+		if (IsValid(RoundControllerComponent))
+		{
+			RoundControllerComponent->OnRoundStarted.AddUniqueDynamic(this, &AConveyor::HandleRoundStarted);
+		}
 	}
 
 	Super::BeginPlay();
