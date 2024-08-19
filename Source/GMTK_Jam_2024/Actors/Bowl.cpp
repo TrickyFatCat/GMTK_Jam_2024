@@ -43,8 +43,8 @@ void ABowl::OnConstruction(const FTransform& Transform)
 		{
 			for (int32 y = 0; y < SizeY; y++)
 			{
-				NewLocation.X = ForwardVector.X * SectorSize.X * x - SectorSize.X * SizeX * 0.25f;
-				NewLocation.Y = RightVector.Y * SectorSize.Y * y - SectorSize.Y * SizeY * 0.25f;
+				NewLocation.X = SectorSize.X * x - SectorSize.X * SizeX * 0.25f;
+				NewLocation.Y = SectorSize.Y * y - SectorSize.Y * SizeY * 0.25f;
 				EntityOffsets.Emplace(NewLocation);
 			}
 		}
