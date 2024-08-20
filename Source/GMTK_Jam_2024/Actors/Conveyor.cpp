@@ -8,7 +8,6 @@
 #include "TrickyGameModeBase.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Curves/CurveVector.h"
-#include "EntitySystem/MovieSceneEntitySystemRunner.h"
 #include "GMTK_Jam_2024/Components/EntityManagerComponent.h"
 #include "GMTK_Jam_2024/Components/EntitySpawnerComponent.h"
 #include "GMTK_Jam_2024/Components/EntityStateControllerComponent.h"
