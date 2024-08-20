@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "EntityStateControllerComponent.generated.h"
 
-UENUM()
+UENUM(Blueprintable)
 enum class EEntityState : uint8
 {
 	Inactive,
